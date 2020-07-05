@@ -1,0 +1,27 @@
+{
+    "name": "socket_chat",
+    "version": "1.0.0",
+    "description": "Created using Socket.io",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "devStart": "nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Kevin-Luk-Hub/socket-chat.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Kevin-Luk-Hub/socket-chat/issues"
+    },
+    "homepage": "https://github.com/Kevin-Luk-Hub/socket-chat#readme",
+    "dependencies": {
+        "express": "^4.17.1",
+        "node": "^14.5.0",
+        "nodemon": "^2.0.4",
+        "socket.io": "^2.3.0"
+    }
+}
