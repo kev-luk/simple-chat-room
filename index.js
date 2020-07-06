@@ -20,13 +20,17 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-    socket.on('user-num', (userNum) => {
-        socket.broadcast.emit('users-num', userNum);
-    });
     socket.on('new-user', (name) => {
+        userNum++;
+        console.log(userNum);
         users[socket.id] = name;
         socket.broadcast.emit('user-connected', name);
+        socket.broadcast.emit('numUsers', userNum);
     });
+
+    // socket.on('user-connected-num', () => {
+    //     socket.broadcast.emit('user-connected-num', userNum);
+    // });
 
     socket.on('send-chat-message', (message) => {
         socket.broadcast.emit('chat-message', {
@@ -38,5 +42,11 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         socket.broadcast.emit(`user-disconnected`, users[socket.id]);
         delete users[socket.id];
+
+        if (userNum <= 0) {
+            userNum = 0;
+        } else {
+            userNum--;
+        }
     });
 });

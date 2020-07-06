@@ -9,6 +9,7 @@ socket.emit('new-user', name);
 
 socket.on('user-connected', (name) => {
     welcomeMessage(`${name} connected`);
+    console.log(userNum);
 });
 
 socket.on('user-disconnected', (name) => {
@@ -38,5 +39,12 @@ function welcomeMessage(name) {
     let messageElement = document.createElement('div');
     messageElement.className = 'welcome-message';
     messageElement.innerHTML = name;
+    messageElement.style.color = 'red';
     messageContainer.append(messageElement);
+}
+
+function randomColor() {
+    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+    console.log('#' + randomColor);
+    return '#' + randomColor;
 }
