@@ -1,25 +1,42 @@
 const express = require('express');
 const app = express();
-const http = require('http').createServer(app);
-var io = require('socket.io')(http);
+const server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var path = require('path');
 
-app.use(express.static('public'));
+var port = process.env.PORT || 3000;
+
+const users = {};
+var userNum = 0;
+
+server.listen(port, () => {
+    console.log('Successfully started server...');
+});
+
+app.use(express.static(path.join(__dirname + '/public')));
 
 app.get('/', (req, res) => {
-    res.sendFile('index.html');
+    res.sendFile('/index.html');
 });
 
 io.on('connection', (socket) => {
-    console.log('New user');
+    socket.on('user-num', (userNum) => {
+        socket.broadcast.emit('users-num', userNum);
+    });
+    socket.on('new-user', (name) => {
+        users[socket.id] = name;
+        socket.broadcast.emit('user-connected', name);
+    });
+
+    socket.on('send-chat-message', (message) => {
+        socket.broadcast.emit('chat-message', {
+            message: message,
+            name: users[socket.id],
+        });
+    });
 
     socket.on('disconnect', () => {
-        console.log('User disconnected');
+        socket.broadcast.emit(`user-disconnected`, users[socket.id]);
+        delete users[socket.id];
     });
-    socket.on('send-chat-message', (msg) => {
-        console.log('message: ' + msg);
-    });
-});
-
-http.listen(3000, () => {
-    console.log('Successfully started server...');
 });

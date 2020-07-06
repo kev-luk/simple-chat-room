@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,6 +7,7 @@
 }
 
 body {
+    font-family: 'Ubuntu', sans-serif;
     padding: 0;
     margin: 0;
     display: flex;
@@ -14,16 +17,44 @@ body {
 .message-container {
     width: 80%;
     max-width: 1200px;
-    background-color: yellow;
+    margin-top: 3em;
 }
 
 .message-container div {
-    background-color: #ccc;
     padding: 5px;
 }
 
-.message-container div:nth-child(2n) {
-    background-color: #fff;
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.message-container div:nth-child(n) {
+    color: black;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 30%;
+    overflow-wrap: break-word;
+    padding: 10px;
+    margin-bottom: 0.4em;
+    border-radius: 10px;
+    animation: fadeIn 0.5s;
+}
+
+.welcome-message {
+    color: blue;
+    font-size: 1rem;
+    font-weight: 700;
+    width: 30%;
+    overflow-wrap: break-word;
+    padding: 10px;
+    margin-bottom: 0.4em;
+    border-radius: 10px;
+    animation: fadeIn 0.5s;
 }
 
 .send-container {
@@ -45,6 +76,7 @@ body {
 }
 
 .send-button {
+    font-family: 'Ubuntu', sans-serif;
     width: 10%;
     padding: 0.9em;
     border: none;

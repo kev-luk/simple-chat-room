@@ -1,14 +1,42 @@
-const socket = io('http://localhost:3000');
+const socket = io();
 const messageForm = document.querySelector('.send-container');
 const messageInput = document.querySelector('.message-input');
+const messageContainer = document.querySelector('.message-container');
+
+const name = prompt('What is your name?');
+welcomeMessage(`${name} has connected`);
+socket.emit('new-user', name);
+
+socket.on('user-connected', (name) => {
+    welcomeMessage(`${name} connected`);
+});
+
+socket.on('user-disconnected', (name) => {
+    addMessage(`${name} has disconnected`);
+});
 
 socket.on('chat-message', (data) => {
-    console.log(data);
+    addMessage(`${data.name}: ${data.message}`);
 });
 
 messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const message = messageInput.value;
+    let message = messageInput.value;
+    addMessage(`You: ${message}`);
     socket.emit('send-chat-message', message);
     messageInput.value = '';
 });
+
+function addMessage(message) {
+    let messageElement = document.createElement('div');
+    messageElement.className = 'new-message';
+    messageElement.innerHTML = message;
+    messageContainer.append(messageElement);
+}
+
+function welcomeMessage(name) {
+    let messageElement = document.createElement('div');
+    messageElement.className = 'welcome-message';
+    messageElement.innerHTML = name;
+    messageContainer.append(messageElement);
+}
