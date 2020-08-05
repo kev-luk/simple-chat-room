@@ -9,11 +9,15 @@ socket.emit('new-user', name);
 
 socket.on('user-connected', (name) => {
     welcomeMessage(`${name} connected`);
-    console.log(userNum);
 });
 
-socket.on('user-disconnected', (name) => {
-    addMessage(`${name} has disconnected`);
+socket.on('user-disconnected', (data) => {
+    addMessage(`${data.name} has disconnected`);
+    if (data.num === 1) {
+        addMessage(`${data.num} participant in the chat`);
+    } else {
+        addMessage(`${data.num} participants in the chat`);
+    }
 });
 
 socket.on('chat-message', (data) => {
@@ -23,7 +27,9 @@ socket.on('chat-message', (data) => {
 messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let message = messageInput.value;
-    addMessage(`You: ${message}`);
+    if (message != '') {
+        addMessage(`You: ${message}`);
+    }
     socket.emit('send-chat-message', message);
     messageInput.value = '';
 });
@@ -35,11 +41,17 @@ function addMessage(message) {
     messageContainer.append(messageElement);
 }
 
-function welcomeMessage(name) {
+function welcomeMessage(message) {
     let messageElement = document.createElement('div');
     messageElement.className = 'welcome-message';
-    messageElement.innerHTML = name;
-    messageElement.style.color = 'red';
+    messageElement.innerHTML = message;
+    messageContainer.append(messageElement);
+}
+
+function disconnectMessage(message) {
+    let messageElement = document.createElement('div');
+    messageElement.className = 'new-message';
+    messageElement.innerHTML = message;
     messageContainer.append(messageElement);
 }
 

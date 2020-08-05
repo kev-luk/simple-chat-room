@@ -9,10 +9,6 @@ var port = process.env.PORT || 3000;
 const users = {};
 var userNum = 0;
 
-server.listen(port, () => {
-    console.log('Successfully started server...');
-});
-
 app.use(express.static(path.join(__dirname + '/public')));
 
 app.get('/', (req, res) => {
@@ -28,10 +24,6 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('numUsers', userNum);
     });
 
-    // socket.on('user-connected-num', () => {
-    //     socket.broadcast.emit('user-connected-num', userNum);
-    // });
-
     socket.on('send-chat-message', (message) => {
         socket.broadcast.emit('chat-message', {
             message: message,
@@ -40,13 +32,23 @@ io.on('connection', (socket) => {
     });
 
     socket.on('disconnect', () => {
-        socket.broadcast.emit(`user-disconnected`, users[socket.id]);
-        delete users[socket.id];
-
-        if (userNum <= 0) {
-            userNum = 0;
-        } else {
+        if (userNum > 0) {
             userNum--;
         }
+
+        socket.broadcast.emit(`user-disconnected`, {
+            name: users[socket.id],
+            num: userNum,
+        });
+
+        console.log(`${users[socket.id]} left the chat`);
+
+        delete users[socket.id];
+
+        console.log(userNum);
     });
+});
+
+server.listen(port, () => {
+    console.log('Running server...');
 });
