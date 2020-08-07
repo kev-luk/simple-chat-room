@@ -15,16 +15,42 @@ body {
 }
 
 .message-container {
-    width: 80%;
-    max-width: 1200px;
-    margin-top: 3em;
-    height: 80vh;
-    border: 2px solid black;
-    overflow: auto;
+    width: 90vw;
+    margin: 3em;
+    height: 70vh;
+    word-wrap: break-word;
+    overflow-y: auto;
 }
 
-.message-container div {
-    padding: 5px;
+.send-container {
+    position: fixed;
+    bottom: 4vh;
+    background-color: white;
+    width: 90vw;
+}
+
+.message-input {
+    border: 1px solid gray;
+    border-radius: 5px;
+    outline: none;
+    padding: 0.6em;
+    width: 100%;
+    font-size: 0.9rem;
+    margin-bottom: 0.5em;
+}
+
+.send-button {
+    width: 100%;
+    padding: 0.4em 0em;
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: black;
+    display: block;
+}
+
+.send-button:hover {
+    opacity: 0.8;
 }
 
 @keyframes fadeIn {
@@ -36,65 +62,22 @@ body {
     }
 }
 
-.message-container div:nth-child(n):not(:first-child) {
-    color: black;
-    font-size: 1rem;
-    font-weight: 700;
-    width: 30%;
-    overflow-wrap: break-word;
-    padding: 10px;
-    margin-bottom: 0.4em;
-    border-radius: 10px;
-    animation: fadeIn 0.5s;
-}
-
 .welcome-message {
-    color: blue;
+    color: #bbbbbb;
     font-size: 1rem;
     font-weight: 700;
     width: 100%;
     overflow-wrap: break-word;
-    padding: 10px;
-    margin: 0.4em 0em;
     border-radius: 10px;
     animation: fadeIn 0.5s;
     text-align: center;
 }
 
-.send-container {
-    position: fixed;
-    bottom: 0;
-    background-color: white;
-    max-width: 1200px;
-    width: 100%;
-    padding: 30px 60px;
-}
-
-.message-input {
-    border: 1px solid gray;
-    border-radius: 10px;
-    outline: none;
-    padding: 0.9em;
-    width: 89%;
-    font-size: 0.9rem;
-}
-
-.send-button {
-    font-family: 'Quicksand', sans-serif;
-    width: 10%;
-    padding: 0.9em;
-    border: none;
-    border-radius: 10px;
-    outline: none;
-    background-color: #d84727;
-    color: white;
-    font-size: 0.9rem;
-    font-weight: 550;
-    letter-spacing: 1px;
-    transition-property: opacity;
-    transition-duration: 400ms;
-}
-
-.send-button:hover {
-    opacity: 0.8;
+.new-message {
+    color: black;
+    font-weight: 500;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    overflow-wrap: break-word;
+    padding: 1em;
+    animation: fadeIn 0.5s;
 }

@@ -4,19 +4,20 @@ const messageInput = document.querySelector('.message-input');
 const messageContainer = document.querySelector('.message-container');
 
 const name = prompt('What is your name?');
-welcomeMessage(`${name} has connected`);
+headerMessage(`${name} has connected`);
+headerMessage(`Welcome to the chat room ${name}!`);
 socket.emit('new-user', name);
 
 socket.on('user-connected', (name) => {
-    welcomeMessage(`${name} connected`);
+    headerMessage(`${name} connected`);
 });
 
 socket.on('user-disconnected', (data) => {
-    addMessage(`${data.name} has disconnected`);
+    headerMessage(`${data.name} has disconnected`);
     if (data.num === 1) {
-        addMessage(`${data.num} participant in the chat`);
+        headerMessage(`${data.num} participant in the chat`);
     } else {
-        addMessage(`${data.num} participants in the chat`);
+        headerMessage(`${data.num} participants in the chat`);
     }
 });
 
@@ -41,7 +42,7 @@ function addMessage(message) {
     messageContainer.append(messageElement);
 }
 
-function welcomeMessage(message) {
+function headerMessage(message) {
     let messageElement = document.createElement('div');
     messageElement.className = 'welcome-message';
     messageElement.innerHTML = message;

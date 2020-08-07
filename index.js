@@ -21,7 +21,6 @@ io.on('connection', (socket) => {
         console.log(userNum);
         users[socket.id] = name;
         socket.broadcast.emit('user-connected', name);
-        socket.broadcast.emit('numUsers', userNum);
     });
 
     socket.on('send-chat-message', (message) => {
