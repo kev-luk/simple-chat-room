@@ -2,10 +2,11 @@ const socket = io();
 const messageForm = document.querySelector('.send-container');
 const messageInput = document.querySelector('.message-input');
 const messageContainer = document.querySelector('.message-container');
+const chatTitle = document.getElementById('chat-title');
 
 const name = prompt('What is your name?');
+headerMessage("Welcome to Let'sChat!");
 headerMessage(`${name} has connected`);
-headerMessage(`Welcome to the chat room ${name}!`);
 socket.emit('new-user', name);
 
 socket.on('user-connected', (name) => {
@@ -59,5 +60,5 @@ function disconnectMessage(message) {
 function randomColor() {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     console.log('#' + randomColor);
-    return '#' + randomColor;
+    return `#${randomColor}`;
 }

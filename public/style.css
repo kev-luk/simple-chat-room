@@ -12,45 +12,66 @@ body {
     margin: 0;
     display: flex;
     justify-content: center;
+    align-items: center;
+}
+
+.container {
+    height: 80vh;
+    width: 80vw;
+    position: relative;
+    background-color: #e1e1e1;
+    border-radius: 5px;
+    padding: 0.8em 1.5em;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 0.8em;
+    color: #2e89f9;
+    font-weight: 900;
 }
 
 .message-container {
-    width: 90vw;
-    margin: 3em;
-    height: 70vh;
+    margin: auto;
+    height: 60%;
     word-wrap: break-word;
     overflow-y: auto;
 }
 
 .send-container {
-    position: fixed;
-    bottom: 4vh;
-    background-color: white;
-    width: 90vw;
+    margin: auto;
+    margin-top: 1em;
 }
 
 .message-input {
-    border: 1px solid gray;
+    border: 1px solid #cccccc;
     border-radius: 5px;
     outline: none;
     padding: 0.6em;
     width: 100%;
     font-size: 0.9rem;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.8em;
+    transition-property: box-shadow;
+    transition-duration: 300ms;
+}
+
+.message-input:focus {
+    box-shadow: 0 0 4px #008cff;
 }
 
 .send-button {
     width: 100%;
-    padding: 0.4em 0em;
-    border: 1px solid gray;
+    padding: 0.6em 0em;
+    border: 1px solid #cccccc;
     border-radius: 5px;
-    background-color: rgba(0, 0, 0, 0.1);
-    color: black;
+    background-color: #ffffff;
     display: block;
+    transition-property: background-color;
+    transition-duration: 200ms;
 }
 
 .send-button:hover {
-    opacity: 0.8;
+    background-color: #eeeeee;
 }
 
 @keyframes fadeIn {
@@ -63,17 +84,19 @@ body {
 }
 
 .welcome-message {
-    color: #bbbbbb;
+    background-color: white;
+    color: black;
     font-size: 1rem;
     font-weight: 700;
-    width: 100%;
     overflow-wrap: break-word;
-    border-radius: 10px;
+    border: 1px solid #cccccc;
     animation: fadeIn 0.5s;
     text-align: center;
+    padding: 1em;
 }
 
 .new-message {
+    background-color: white;
     color: black;
     font-weight: 500;
     border: 1px solid rgba(0, 0, 0, 0.1);
