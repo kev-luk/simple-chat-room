@@ -1,13 +1,14 @@
 const express = require('express');
 const app = express();
 const server = require('http').createServer(app);
-var io = require('socket.io')(server);
-var path = require('path');
+const io = require('socket.io')(server);
+const moment = require('moment');
+const path = require('path');
 
-var port = process.env.PORT || 3000;
+const port = process.env.PORT || 3000;
 
 const users = {};
-var userNum = 0;
+let userNum = 0;
 
 app.use(express.static(path.join(__dirname + '/public')));
 
@@ -27,6 +28,7 @@ io.on('connection', (socket) => {
         socket.broadcast.emit('chat-message', {
             message: message,
             name: users[socket.id],
+            time: moment().format('h:mm A'),
         });
     });
 

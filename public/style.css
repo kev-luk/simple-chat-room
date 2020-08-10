@@ -26,7 +26,7 @@ body {
 
 h1 {
     text-align: center;
-    margin-bottom: 0.8em;
+    margin-bottom: 0.6em;
     color: #2e89f9;
     font-weight: 900;
 }
@@ -99,7 +99,7 @@ h1 {
     background-color: white;
     color: black;
     font-weight: 500;
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid #cccccc;
     overflow-wrap: break-word;
     padding: 1em;
     animation: fadeIn 0.5s;

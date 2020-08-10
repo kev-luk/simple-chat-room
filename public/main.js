@@ -23,24 +23,33 @@ socket.on('user-disconnected', (data) => {
 });
 
 socket.on('chat-message', (data) => {
-    addMessage(`${data.name}: ${data.message}`);
+    addMessage(data.message, data.name);
 });
 
 messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let message = messageInput.value;
     if (message != '') {
-        addMessage(`You: ${message}`);
+        addMessage(message);
     }
     socket.emit('send-chat-message', message);
     messageInput.value = '';
 });
 
-function addMessage(message) {
+function addMessage(message, user = 'You') {
     let messageElement = document.createElement('div');
+    let messageText = document.createElement('div');
+    let infoText = document.createElement('div');
     messageElement.className = 'new-message';
-    messageElement.innerHTML = message;
+    infoText.innerText = `${moment().format('h:mm A')}, ${user}`;
+    infoText.style.fontSize = '0.8rem';
+    infoText.style.marginTop = '0.2em';
+    messageText.innerText = message;
+    messageText.style.fontWeight = 600;
+    messageElement.appendChild(messageText);
+    messageElement.appendChild(infoText);
     messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
 function headerMessage(message) {
