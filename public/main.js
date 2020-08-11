@@ -3,8 +3,15 @@ const messageForm = document.querySelector('.send-container');
 const messageInput = document.querySelector('.message-input');
 const messageContainer = document.querySelector('.message-container');
 const participantsButton = document.querySelector('#participants');
+const userModal = document.querySelector('.user-modal');
+const closeBtn = document.querySelector('.close-btn');
+const modalBody = document.querySelector('.modal-body');
 
-const name = prompt('What is your name?');
+let name = '';
+while (name.trim() == '') {
+    name = prompt('What is your name?');
+}
+
 headerMessage("Welcome to Let'sChat!");
 headerMessage(`${name} has connected`);
 socket.emit('new-user', name);
@@ -16,9 +23,9 @@ socket.on('user-connected', (name) => {
 socket.on('user-disconnected', (data) => {
     headerMessage(`${data.name} has disconnected`);
     if (data.num === 1) {
-        headerMessage(`${data.num} participant in the chat`);
+        headerMessage(`${data.num} participant left in the chat`);
     } else {
-        headerMessage(`${data.num} participants in the chat`);
+        headerMessage(`${data.num} participants left in the chat`);
     }
 });
 
@@ -42,7 +49,21 @@ participantsButton.addEventListener('click', (e) => {
 });
 
 socket.on('check-participants', (people) => {
-    console.log(people);
+    openModal();
+    people.forEach((user) => {
+        let person = document.createElement('div');
+        person.className = 'user-container';
+        person.innerText = user;
+        modalBody.appendChild(person);
+    });
+});
+
+closeBtn.addEventListener('click', () => {
+    closeModal(modalBody);
+});
+
+window.addEventListener('click', (e) => {
+    outsideClick(e, modalBody);
 });
 
 function addMessage(message, user = 'You') {
@@ -81,4 +102,24 @@ function randomColor() {
     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
     console.log('#' + randomColor);
     return `#${randomColor}`;
+}
+
+function openModal() {
+    userModal.style.display = 'flex';
+}
+
+function closeModal(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+    userModal.style.display = 'none';
+}
+
+function outsideClick(e, parent) {
+    if (e.target == userModal) {
+        while (parent.firstChild) {
+            parent.removeChild(parent.firstChild);
+        }
+        userModal.style.display = 'none';
+    }
 }
