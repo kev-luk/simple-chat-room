@@ -32,6 +32,20 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('send-participants', (data) => {
+        if (data.click == true) {
+            io.of('/').clients((error, clients) => {
+                if (error) throw error;
+
+                const names = clients.map((id) => {
+                    return users[id];
+                });
+
+                socket.emit('check-participants', names);
+            });
+        }
+    });
+
     socket.on('disconnect', () => {
         if (userNum > 0) {
             userNum--;

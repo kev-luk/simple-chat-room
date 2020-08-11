@@ -16,19 +16,36 @@ body {
 }
 
 .container {
-    height: 80vh;
+    height: 90vh;
     width: 80vw;
     position: relative;
     background-color: #e1e1e1;
     border-radius: 5px;
-    padding: 0.8em 1.5em;
+    padding: 0.8em 1.5em 1.5em 1.5em;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 0.6em;
+    margin-bottom: 0.4em;
     color: #2e89f9;
-    font-weight: 900;
+}
+
+#participants {
+    display: block;
+    margin: auto;
+    width: 20%;
+    padding: 0.6em 0em;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    background-color: #2e89f9;
+    transition-property: background-color;
+    transition-duration: 200ms;
+    color: white;
+    outline: none;
+}
+
+#participants:hover {
+    background-color: #1562c0;
 }
 
 .message-container {
@@ -36,19 +53,22 @@ h1 {
     height: 60%;
     word-wrap: break-word;
     overflow-y: auto;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
 }
 
 .send-container {
     margin: auto;
-    margin-top: 1em;
 }
 
 .message-input {
     border: 1px solid #cccccc;
+    display: block;
+    margin: auto;
+    width: 100%;
     border-radius: 5px;
     outline: none;
     padding: 0.6em;
-    width: 100%;
     font-size: 0.9rem;
     margin-bottom: 0.8em;
     transition-property: box-shadow;
@@ -60,14 +80,16 @@ h1 {
 }
 
 .send-button {
-    width: 100%;
-    padding: 0.6em 0em;
+    padding: 0.6em;
     border: 1px solid #cccccc;
     border-radius: 5px;
     background-color: #ffffff;
     display: block;
     transition-property: background-color;
     transition-duration: 200ms;
+    outline: none;
+    margin: auto;
+    width: 100%;
 }
 
 .send-button:hover {

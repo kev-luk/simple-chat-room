@@ -2,7 +2,7 @@ const socket = io();
 const messageForm = document.querySelector('.send-container');
 const messageInput = document.querySelector('.message-input');
 const messageContainer = document.querySelector('.message-container');
-const chatTitle = document.getElementById('chat-title');
+const participantsButton = document.querySelector('#participants');
 
 const name = prompt('What is your name?');
 headerMessage("Welcome to Let'sChat!");
@@ -36,6 +36,15 @@ messageForm.addEventListener('submit', (e) => {
     messageInput.value = '';
 });
 
+participantsButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    socket.emit('send-participants', { click: true });
+});
+
+socket.on('check-participants', (people) => {
+    console.log(people);
+});
+
 function addMessage(message, user = 'You') {
     let messageElement = document.createElement('div');
     let messageText = document.createElement('div');
@@ -57,6 +66,7 @@ function headerMessage(message) {
     messageElement.className = 'welcome-message';
     messageElement.innerHTML = message;
     messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
 function disconnectMessage(message) {
@@ -64,6 +74,7 @@ function disconnectMessage(message) {
     messageElement.className = 'new-message';
     messageElement.innerHTML = message;
     messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
 function randomColor() {
