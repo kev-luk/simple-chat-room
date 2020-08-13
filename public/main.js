@@ -7,60 +7,39 @@ const userModal = document.querySelector('.user-modal');
 const closeBtn = document.querySelector('.close-btn');
 const modalBody = document.querySelector('.modal-body');
 
+const typingInterval = 2000;
+let typingTimer;
 let name = '';
+
+/* ask for name of the user */
 while (name.trim() == '') {
     name = prompt('What is your name?');
 }
 
 headerMessage("Welcome to Let'sChat!");
 headerMessage(`${name} has connected`);
+
+/* send name of user to server */
 socket.emit('new-user', name);
 
+/* listen for events */
 socket.on('user-connected', (name) => {
     headerMessage(`${name} connected`);
 });
 
-socket.on('user-disconnected', (data) => {
-    headerMessage(`${data.name} has disconnected`);
-    if (data.num === 1) {
-        headerMessage(`${data.num} participant left in the chat`);
-    } else {
-        headerMessage(`${data.num} participants left in the chat`);
-    }
-});
-
 socket.on('chat-message', (data) => {
+    messageContainer.removeChild(document.querySelector('.typing-message'));
     addMessage(data.message, data.name);
 });
 
-// let timeout = setTimeout(function () {}, 0);
-// messageInput.addEventListener('keypress', () => {
-//     clearTimeout(timeout);
-//     timeout = setTimeout(function () {
-//         messageContainer.removeChild(document.querySelector('.typing-message'));
-//     }, 5000);
-//     socket.emit('check-typing', { typing: true });
-// });
-
-// socket.on('typing', (data) => {
-//     if (!document.body.contains(document.querySelector('.typing-message'))) {
-//         typingMessage(data.name);
-//     }
-// });
-
-messageForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    let message = messageInput.value;
-    if (message != '') {
-        addMessage(message);
+socket.on('typing', (name) => {
+    if (!document.body.contains(document.querySelector('.typing-message'))) {
+        typingMessage(name);
     }
-    socket.emit('send-chat-message', message);
-    messageInput.value = '';
 });
 
-participantsButton.addEventListener('click', (e) => {
-    e.preventDefault();
-    socket.emit('send-participants', { click: true });
+socket.on('typing-done', () => {
+    messageContainer.removeChild(document.querySelector('.typing-message'));
 });
 
 socket.on('check-participants', (people) => {
@@ -73,6 +52,21 @@ socket.on('check-participants', (people) => {
     });
 });
 
+socket.on('user-disconnected', (data) => {
+    headerMessage(`${data.name} has disconnected`);
+    if (data.num === 1) {
+        headerMessage(`${data.num} participant left in the chat`);
+    } else {
+        headerMessage(`${data.num} participants left in the chat`);
+    }
+});
+
+/* event listeners for client */
+participantsButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    socket.emit('send-participants');
+});
+
 closeBtn.addEventListener('click', () => {
     closeModal(modalBody);
 });
@@ -81,14 +75,34 @@ window.addEventListener('click', (e) => {
     outsideClick(e, modalBody);
 });
 
+messageInput.addEventListener('keypress', () => {
+    clearInterval(typingTimer);
+    typingTimer = setTimeout(doneTyping, typingInterval);
+    socket.emit('check-typing', name);
+});
+
+messageForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let message = messageInput.value;
+    if (message != '') {
+        addMessage(message);
+    }
+    socket.emit('send-chat-message', message);
+    messageInput.value = '';
+});
+
+/* functions */
+function doneTyping() {
+    socket.emit('check-done-typing');
+}
+
 function addMessage(message, user = 'You') {
     let messageElement = document.createElement('div');
     let messageText = document.createElement('div');
     let infoText = document.createElement('div');
     messageElement.className = 'new-message';
+    infoText.className = 'info-text';
     infoText.innerText = `${moment().format('h:mm A')}, ${user}`;
-    infoText.style.fontSize = '0.8rem';
-    infoText.style.marginTop = '0.2em';
     messageText.innerText = message;
     messageText.style.fontWeight = 600;
     messageElement.appendChild(messageText);
@@ -104,7 +118,6 @@ function typingMessage(user) {
     messageText.innerText = `${user} is typing...`;
     messageElement.appendChild(messageText);
     messageContainer.append(messageElement);
-    messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
 function headerMessage(message) {

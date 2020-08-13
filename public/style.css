@@ -127,6 +127,11 @@ body {
     animation: fadeIn 0.5s;
 }
 
+.info-text {
+    font-size: 0.8rem;
+    margin-top: 0.4em;
+}
+
 .user-modal {
     display: none;
     position: fixed;
