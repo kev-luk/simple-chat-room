@@ -33,6 +33,21 @@ socket.on('chat-message', (data) => {
     addMessage(data.message, data.name);
 });
 
+// let timeout = setTimeout(function () {}, 0);
+// messageInput.addEventListener('keypress', () => {
+//     clearTimeout(timeout);
+//     timeout = setTimeout(function () {
+//         messageContainer.removeChild(document.querySelector('.typing-message'));
+//     }, 5000);
+//     socket.emit('check-typing', { typing: true });
+// });
+
+// socket.on('typing', (data) => {
+//     if (!document.body.contains(document.querySelector('.typing-message'))) {
+//         typingMessage(data.name);
+//     }
+// });
+
 messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let message = messageInput.value;
@@ -82,6 +97,16 @@ function addMessage(message, user = 'You') {
     messageContainer.scrollTop = messageContainer.scrollHeight;
 }
 
+function typingMessage(user) {
+    let messageElement = document.createElement('div');
+    let messageText = document.createElement('div');
+    messageElement.className = 'typing-message';
+    messageText.innerText = `${user} is typing...`;
+    messageElement.appendChild(messageText);
+    messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
 function headerMessage(message) {
     let messageElement = document.createElement('div');
     messageElement.className = 'welcome-message';
@@ -105,7 +130,7 @@ function randomColor() {
 }
 
 function openModal() {
-    userModal.style.display = 'flex';
+    userModal.style.display = 'block';
 }
 
 function closeModal(parent) {

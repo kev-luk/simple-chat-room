@@ -32,6 +32,14 @@ io.on('connection', (socket) => {
         });
     });
 
+    socket.on('check-typing', (check) => {
+        if (check.typing == true) {
+            socket.broadcast.emit('typing', {
+                name: users[socket.id],
+            });
+        }
+    });
+
     socket.on('send-participants', (data) => {
         if (data.click == true) {
             io.of('/').clients((error, clients) => {

@@ -129,8 +129,6 @@ body {
 
 .user-modal {
     display: none;
-    justify-content: center;
-    align-items: center;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -144,14 +142,17 @@ body {
 }
 
 .modal-content {
-    background-color: white;
-    width: 50%;
+    border-radius: 5px;
+    margin: 10% auto;
+    background-color: #e1e1e1;
+    width: 40%;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
 .modal-header {
     position: relative;
-    padding: 1.5em;
+    padding: 1em;
     background-color: #2e89f9;
     color: white;
 }
@@ -183,10 +184,10 @@ body {
 }
 
 .modal-body {
-    padding: 0.8em;
+    padding: 1em;
+    height: 50%;
     text-align: center;
-    background-color: #e1e1e1;
-    overflow-y: auto;
+    overflow: auto;
 }
 
 .user-container {
@@ -197,4 +198,15 @@ body {
     border: 1px solid #cccccc;
     overflow-wrap: break-word;
     padding: 1em;
+}
+
+.typing-message {
+    font-style: italic;
+    font-weight: 600;
+    background-color: white;
+    color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #cccccc;
+    overflow-wrap: break-word;
+    padding: 1em;
+    animation: fadeIn 0.5s;
 }
