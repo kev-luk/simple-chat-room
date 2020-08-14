@@ -28,7 +28,7 @@ socket.on('user-connected', (name) => {
 });
 
 socket.on('chat-message', (data) => {
-    messageContainer.removeChild(document.querySelector('.typing-message'));
+    document.querySelector('.typing-message').remove();
     addMessage(data.message, data.name);
 });
 
@@ -39,7 +39,9 @@ socket.on('typing', (name) => {
 });
 
 socket.on('typing-done', () => {
-    messageContainer.removeChild(document.querySelector('.typing-message'));
+    if (document.body.contains(document.querySelector('.typing-message'))) {
+        document.querySelector('.typing-message').remove();
+    }
 });
 
 socket.on('check-participants', (people) => {
