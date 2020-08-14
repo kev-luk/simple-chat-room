@@ -105,11 +105,11 @@ body {
     }
 }
 
-.welcome-message {
+.header-message {
     background-color: white;
     color: black;
     font-size: 1rem;
-    font-weight: 700;
+    font-weight: 900;
     overflow-wrap: break-word;
     border: 1px solid #cccccc;
     animation: fadeIn 0.5s;
@@ -117,7 +117,12 @@ body {
     padding: 1em;
 }
 
-.new-message {
+.header-message.other {
+    color: rgba(0, 0, 0, 0.3);
+}
+
+.add-message {
+    text-align: right;
     background-color: white;
     color: black;
     font-weight: 500;
@@ -127,9 +132,17 @@ body {
     animation: fadeIn 0.5s;
 }
 
+.add-message.other {
+    text-align: left;
+}
+
 .info-text {
     font-size: 0.8rem;
     margin-top: 0.4em;
+}
+
+.message-text {
+    font-weight: 600;
 }
 
 .user-modal {

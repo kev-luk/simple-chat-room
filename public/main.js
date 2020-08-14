@@ -17,19 +17,21 @@ while (name.trim() == '') {
 }
 
 headerMessage("Welcome to Let'sChat!");
-headerMessage(`${name} has connected`);
 
 /* send name of user to server */
 socket.emit('new-user', name);
 
 /* listen for events */
 socket.on('user-connected', (name) => {
-    headerMessage(`${name} connected`);
+    let newUserElement = document.createElement('div');
+    newUserElement.className = 'header-message other';
+    newUserElement.innerText = `${name} has connected`;
+    messageContainer.appendChild(newUserElement);
 });
 
 socket.on('chat-message', (data) => {
     document.querySelector('.typing-message').remove();
-    addMessage(data.message, data.name);
+    addOtherMessage(data.message, data.name);
 });
 
 socket.on('typing', (name) => {
@@ -55,11 +57,17 @@ socket.on('check-participants', (people) => {
 });
 
 socket.on('user-disconnected', (data) => {
-    headerMessage(`${data.name} has disconnected`);
+    disconnectMessage(data.name);
     if (data.num === 1) {
-        headerMessage(`${data.num} participant left in the chat`);
+        let newUserElement = document.createElement('div');
+        newUserElement.className = 'header-message other';
+        newUserElement.innerText = 'You are the only person in the chat';
+        messageContainer.appendChild(newUserElement);
     } else {
-        headerMessage(`${data.num} participants left in the chat`);
+        let newUserElement = document.createElement('div');
+        newUserElement.className = 'header-message other';
+        newUserElement.innerText = `${data.num} participant lefts in the chat`;
+        messageContainer.appendChild(newUserElement);
     }
 });
 
@@ -87,7 +95,7 @@ messageForm.addEventListener('submit', (e) => {
     e.preventDefault();
     let message = messageInput.value;
     if (message != '') {
-        addMessage(message);
+        addUserMessage(message);
     }
     socket.emit('send-chat-message', message);
     messageInput.value = '';
@@ -98,15 +106,38 @@ function doneTyping() {
     socket.emit('check-done-typing');
 }
 
-function addMessage(message, user = 'You') {
+function headerMessage(message) {
+    let messageElement = document.createElement('div');
+    messageElement.className = 'header-message';
+    messageElement.innerHTML = message;
+    messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
+function addUserMessage(message) {
     let messageElement = document.createElement('div');
     let messageText = document.createElement('div');
     let infoText = document.createElement('div');
-    messageElement.className = 'new-message';
+    messageElement.className = 'add-message';
     infoText.className = 'info-text';
-    infoText.innerText = `${moment().format('h:mm A')}, ${user}`;
+    infoText.innerText = `${moment().format('MM/D/YYYY h:mm A')}, You`;
     messageText.innerText = message;
-    messageText.style.fontWeight = 600;
+    messageText.className = 'message-text';
+    messageElement.appendChild(messageText);
+    messageElement.appendChild(infoText);
+    messageContainer.append(messageElement);
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+}
+
+function addOtherMessage(message, user) {
+    let messageElement = document.createElement('div');
+    let messageText = document.createElement('div');
+    let infoText = document.createElement('div');
+    messageElement.className = 'add-message other';
+    infoText.className = 'info-text';
+    infoText.innerText = `${moment().format('MM/D/YYYY h:mm A')}, ${user}`;
+    messageText.innerText = message;
+    messageText.className = 'message-text';
     messageElement.appendChild(messageText);
     messageElement.appendChild(infoText);
     messageContainer.append(messageElement);
@@ -122,18 +153,10 @@ function typingMessage(user) {
     messageContainer.append(messageElement);
 }
 
-function headerMessage(message) {
+function disconnectMessage(user) {
     let messageElement = document.createElement('div');
-    messageElement.className = 'welcome-message';
-    messageElement.innerHTML = message;
-    messageContainer.append(messageElement);
-    messageContainer.scrollTop = messageContainer.scrollHeight;
-}
-
-function disconnectMessage(message) {
-    let messageElement = document.createElement('div');
-    messageElement.className = 'new-message';
-    messageElement.innerHTML = message;
+    messageElement.className = 'header-message other';
+    messageElement.innerHTML = `${user} has disconnected`;
     messageContainer.append(messageElement);
     messageContainer.scrollTop = messageContainer.scrollHeight;
 }
