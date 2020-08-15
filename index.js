@@ -4,7 +4,7 @@ const server = require('http').createServer(app);
 const io = require('socket.io')(server);
 const path = require('path');
 
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
 const users = {};
 let userNum = 0;
@@ -61,6 +61,6 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(port, () => {
+server.listen(PORT, () => {
     console.log('Running server...');
 });
