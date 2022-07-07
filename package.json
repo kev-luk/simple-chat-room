@@ -21,7 +21,7 @@
     "homepage": "https://github.com/Kevin-Luk-Hub/socket-chat#readme",
     "dependencies": {
         "express": "^4.17.1",
-        "moment": "^2.27.0",
+        "moment": "^2.29.4",
         "node": "^14.5.0",
         "nodemon": "^2.0.4",
         "socket.io": "^2.3.0"
